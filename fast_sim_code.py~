@@ -16,11 +16,11 @@ def iterations(N,m,k,b,r,v,T,f,gamma,dt,c1,c2,Nstep,Nwrite,edges,nEdges):
         
     f = np.zeros((N,3))
         
-    for edge in edges:
-        i = edge[0]
-        j = edge[1]
-        k_ij = edge[2]
-        b_ij = edge[3]
+    for edge in range(nEdges):
+        i = int(edges[edge,0])
+        j = int(edges[edge,1])
+        k_ij = edges[edge,2]
+        b_ij = edges[edge,3]
         # recalc forces
         f_ij = -k_ij*(1-(b_ij/(np.linalg.norm(r[i]-r[j]))))*(r[j]-r[i])
         f[i] -= f_ij
@@ -32,11 +32,11 @@ def iterations(N,m,k,b,r,v,T,f,gamma,dt,c1,c2,Nstep,Nwrite,edges,nEdges):
 @jit
 def initial_forces(N,r,edges):
     f = np.zeros((N,3))
-    for edge in edges:
-        i = edge[0]
-        j = edge[1]
-        k_ij = edge[2]
-        b_ij = edge[3]
+    for edge in range(edges.shape[0]):
+        i = int(edges[edge,0])
+        j = int(edges[edge,1])
+        k_ij = edges[edge,2]
+        b_ij = edges[edge,3]
         # calc forces
         f_ij = -k_ij*(1-(b_ij/(np.linalg.norm(r[i]-r[j]))))*(r[j]-r[i])
         f[i] -= f_ij
@@ -46,7 +46,7 @@ def initial_forces(N,r,edges):
 def allostery_simulation_3D(N,m,k,b,r,v,T,f,gamma,dt,c1,c2,Nstep,Nwrite,edges,nEdges):
     for i in range(N-1):
         for j in range (i+1,N):
-            if k[i,j] > 1e-5:
+            if k[i,j] > 1e-4:
                 #edges.append([])
                 #edges[nEdges].append(i)
                 #edges[nEdges].append(j)
@@ -54,10 +54,11 @@ def allostery_simulation_3D(N,m,k,b,r,v,T,f,gamma,dt,c1,c2,Nstep,Nwrite,edges,nE
                 #edges[nEdges].append(b[i,j])
                 edges.append([i,j,k[i,j],b[i,j]])
                 nEdges += 1
-    print("nEdges = ", nEdges)        
+    edges = np.asarray(edges)
+  #  print(edges.shape)
   # loop over timestep (calc forces and propagate)
-    forces_xyz = open("forces_xyz.dat","w")
-    velocities_xyz = open("velocities_xyz.dat","w")
+  #  forces_xyz = open("forces_xyz.dat","w")
+  #  velocities_xyz = open("velocities_xyz.dat","w")
    
     u = MDA.Universe("alignedCasLastFramed.pdb")
 #    u = MDA.Universe("2particles.pdb")

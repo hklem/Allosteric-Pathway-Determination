@@ -8,7 +8,7 @@ from sim_code import *
 T = 303.  # K
 gamma = 0.002 # fs^-1
 dt = 2.  # fs
-Nstep = 21 
+Nstep = 201
 Nwrite = 2
 
 # read initial coordinates
