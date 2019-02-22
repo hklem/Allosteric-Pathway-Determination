@@ -25,7 +25,7 @@ def iterations(N,m,k,b,r,v,T,f,gamma,dt,c1,c2,Nstep,Nwrite):
         v[i] += (f[i]/m)*dt/2. #B
     return r, v, f
 @jit
-def initial_forces(N,r,f,k,b):
+def initial_forces(N,r,f,k):
     f = np.zeros((N,3))
     for i in range(N):
         for j in range(i+1,N):
@@ -45,7 +45,7 @@ def allostery_simulation_3D(N,m,k,b,r,v,T,f,gamma,dt,c1,c2,Nstep,Nwrite):
     forces_xyz = MDA.Writer("forces.dcd",N)
    
    # define initial coords/vel (xyz,v)
-    f = initial_forces(N,r,f,k,b)
+    f = initial_forces(N,r,f,k)
     for it in range(Nstep):
         print(it)
         r, v, f = iterations(N,m,k,b,r,v,T,f,gamma,dt,c1,c2,Nstep,Nwrite)

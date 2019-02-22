@@ -1,7 +1,7 @@
 import numpy as np
 import sys
 import matplotlib.pyplot as plt
-from sim_code import *
+from fast_sim_code import *
 
 
 # define input to control sim (T,dt,Nstep,Nwrite)
@@ -43,5 +43,5 @@ edges = []
 nEdges = 0
 
 # run simulation
-allostery_simulation_3D(N,m,k,b,pos,v,T,f,gamma,dt,c1,c2,Nstep,Nwrite)
+allostery_simulation_3D(N,m,k,b,pos,v,T,f,gamma,dt,c1,c2,Nstep,Nwrite,edges,nEdges)
 
