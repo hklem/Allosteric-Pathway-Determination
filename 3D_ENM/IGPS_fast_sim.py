@@ -8,8 +8,8 @@ from fast_sim_code import *
 T = 303.  # K
 gamma = 0.002 # fs^-1
 dt = 2.  # fs
-Nstep = 201
-Nwrite = 2
+Nstep = 2000001
+Nwrite = 2000
 
 # read initial coordinates
 pos = np.loadtxt("pos_initial.dat")

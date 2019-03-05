@@ -55,17 +55,17 @@ def allostery_simulation_3D(N,m,k,b,r,v,T,f,gamma,dt,c1,c2,Nstep,Nwrite,edges,nE
                 edges.append([i,j,k[i,j],b[i,j]])
                 nEdges += 1
     edges = np.asarray(edges)
-  #  print(edges.shape)
   # loop over timestep (calc forces and propagate)
-  #  forces_xyz = open("forces_xyz.dat","w")
-  #  velocities_xyz = open("velocities_xyz.dat","w")
+    f_xyz = open("sim_data/forces_xyz.dat","w")
+    v_xyz = open("sim_data/velocities_xyz.dat","w")
+    r_xyz = open("sim_data/positions_xyz.dat","w")
    
     u = MDA.Universe("alignedCasLastFramed.pdb")
 #    u = MDA.Universe("2particles.pdb")
     allu = u.select_atoms("all")
-    positions_xyz = MDA.Writer("positions.dcd",N)
-    velocities_xyz = MDA.Writer("velocities.dcd",N)
-    forces_xyz = MDA.Writer("forces.dcd",N)
+    positions_xyz = MDA.Writer("sim_data/positions.dcd",N)
+    velocities_xyz = MDA.Writer("sim_data/velocities.dcd",N)
+    forces_xyz = MDA.Writer("sim_data/forces.dcd",N)
   
    
    # define initial coords/vel (xyz,v)
@@ -81,12 +81,16 @@ def allostery_simulation_3D(N,m,k,b,r,v,T,f,gamma,dt,c1,c2,Nstep,Nwrite,edges,nE
                 forces_xyz.write(allu)
                 allu.positions = v
                 velocities_xyz.write(allu)
-#                for atom in range(N):
-#                    forces_xyz.write("%16.8f %16.8f %16.8f\n" % (f[atom,0],f[atom,1],f[atom,2]))
-#                    velocities_xyz.write("%16.8f %16.8f %16.8f\n" % (v[atom,0],v[atom,1],v[atom,2]))
+                for atom in range(N):
+                    f_xyz.write("%16.8f %16.8f %16.8f\n" % (f[atom,0],f[atom,1],f[atom,2]))
+                    v_xyz.write("%16.8f %16.8f %16.8f\n" % (v[atom,0],v[atom,1],v[atom,2]))
+                    r_xyz.write("%16.8f %16.8f %16.8f\n" % (r[atom,0],r[atom,1],r[atom,2]))
     positions_xyz.close()
     forces_xyz.close()
     velocities_xyz.close()
+    r_xyz.close()
+    f_xyz.close()
+    v_xyz.close()
  
  
  
